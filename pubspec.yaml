@@ -22,6 +22,8 @@ dependencies:
 
   oauth2: any
 
+  flutter_webview_plugin: 0.2.1+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,6 +39,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/secrets.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
