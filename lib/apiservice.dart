@@ -40,8 +40,9 @@ class ApiService {
     );
     switch (response.statusCode) {
       case 200:
-        print('Oauth successful');
-        return User.fromJson(json.decode(response.body));
+        final user = User.fromJson(json.decode(response.body));
+        print('User = $user');
+        return user;
         break;
       case 401:
         throw AuthorizationException();

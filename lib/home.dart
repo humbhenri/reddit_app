@@ -35,9 +35,24 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_user == null) {
+      return Center(
+        child: Container(
+          height: 180.0,
+          width: 180.0,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('App for Reddit'),
+        actions: <Widget>[
+          IconButton(
+            icon: Image.network(_user.iconImg),
+            onPressed: () => {},
+          )
+        ],
       ),
       body: Center(
         child: Text(_user.name),
