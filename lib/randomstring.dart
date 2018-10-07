@@ -1,7 +1,6 @@
 import 'dart:math';
 
-const ASCII_START = 65;
-const ASCII_END = 122;
+const ALPHA = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
 class RandomString {
   String string;
@@ -9,7 +8,7 @@ class RandomString {
   RandomString(int length) {
     string = String.fromCharCodes(List.generate(length, (index) {
       final rand = new Random();
-      return ((ASCII_END - ASCII_START) * rand.nextDouble()).toInt() + ASCII_START;
+      return ALPHA.codeUnitAt(rand.nextInt(ALPHA.length));
     }));
   }
 }
