@@ -1,7 +1,8 @@
 class User {
-  User();
+  final String name;
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User();
-  }
+  const User({this.name});
+
+  User.fromJson(Map<String, dynamic> jsonMap)
+    : name = jsonMap['name'];
 }

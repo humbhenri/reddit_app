@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:reddit_app/apiservice.dart';
+import 'package:reddit_app/user/user.dart';
 
 class HomePage extends StatefulWidget {
   final String _code;
@@ -14,13 +17,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ApiService _apiService;
+  User _user;
 
   _HomePageState(this._apiService);
 
   @override
   void initState() {
     super.initState();
-    _apiService.me();
+    _getUserInfo();
   }
 
   @override
@@ -35,7 +39,18 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('App for Reddit'),
       ),
-      body: Center(),
+      body: Center(
+        child: Text(_user.name),
+      ),
     );
+  }
+
+  Future<void> _getUserInfo() async {
+    final user = await _apiService.me();
+    setState(() {
+      if (user != null) {
+        _user = user;
+      }
+    });
   }
 }

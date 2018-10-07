@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:reddit_app/apiconfig.dart';
 import 'package:reddit_app/exceptions.dart';
+import 'package:reddit_app/user/user.dart';
 import 'package:reddit_app/useragentclient.dart';
 
 class _AuthUserAgentClient extends http.BaseClient {
@@ -15,7 +17,6 @@ class _AuthUserAgentClient extends http.BaseClient {
     request.headers['Authorization'] = 'bearer $_token';
     return _inner.send(request);
   }
-
 }
 
 class ApiService {
@@ -25,25 +26,28 @@ class ApiService {
   _AuthUserAgentClient _client;
 
   ApiService(this._token) {
-    _client = _AuthUserAgentClient(UserAgentClient(ApiConfig.USER_AGENT, http.Client()), _token);
+    _client = _AuthUserAgentClient(
+        UserAgentClient(ApiConfig.USER_AGENT, http.Client()), _token);
   }
 
   void dispose() {
     _client.close();
   }
 
-  Future<dynamic> me() async {
+  Future<User> me() async {
     final response = await _client.get(
       ApiConfig.ROOT_URI + '/api/v1/me',
     );
     switch (response.statusCode) {
       case 200:
         print('Oauth successful');
-        print(response.body);
+        return User.fromJson(json.decode(response.body));
         break;
       case 401:
         throw AuthorizationException();
         break;
+      default:
+        return null;
     }
   }
 }
