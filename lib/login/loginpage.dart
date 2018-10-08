@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:reddit_app/login/accesstokenservice.dart';
 import 'package:reddit_app/apiconfig.dart';
-import 'package:reddit_app/home.dart';
+import 'package:reddit_app/homepage.dart';
 import 'package:reddit_app/util/randomstring.dart';
 import 'package:reddit_app/util/secretloader.dart';
 
