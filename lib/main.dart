@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reddit_app/login.dart';
+import 'package:reddit_app/login/loginpage.dart';
 
 void main() => runApp(new MyApp());
 

@@ -4,7 +4,7 @@ import 'package:reddit_app/apiconfig.dart';
 import 'package:reddit_app/exceptions.dart';
 import 'dart:convert';
 
-import 'package:reddit_app/secretloader.dart';
+import 'package:reddit_app/util/secretloader.dart';
 
 class AccessTokenService {
   final String _code;

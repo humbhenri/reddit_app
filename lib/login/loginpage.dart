@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:reddit_app/accesstokenservice.dart';
+import 'package:reddit_app/login/accesstokenservice.dart';
 import 'package:reddit_app/apiconfig.dart';
 import 'package:reddit_app/home.dart';
-import 'package:reddit_app/randomstring.dart';
-import 'package:reddit_app/secretloader.dart';
+import 'package:reddit_app/util/randomstring.dart';
+import 'package:reddit_app/util/secretloader.dart';
 
 const authURL =
     'https://www.reddit.com/api/v1/authorize.compact?response_type=code&'
