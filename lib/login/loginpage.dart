@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:reddit_app/login/accesstokenservice.dart';
 import 'package:reddit_app/apiconfig.dart';
-import 'package:reddit_app/homepage.dart';
+import 'package:reddit_app/login/accesstokenservice.dart';
 import 'package:reddit_app/util/randomstring.dart';
 import 'package:reddit_app/util/secretloader.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 const authURL =
     'https://www.reddit.com/api/v1/authorize.compact?response_type=code&'
@@ -32,9 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _onUrlChanged = _flutterWebviewPlugin.onUrlChanged.listen((String url) {
       if (mounted) {
-        print('Url changed: $url');
         final uri = Uri.dataFromString(url);
-        print('Uri query segment ${uri.queryParameters}');
         final query = uri.queryParameters;
         if (query['state'] == _randomString && query.containsKey('code')) {
           print('Auth successful');
@@ -47,8 +46,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _retrieveAccessToken(String code) async {
     final token = await AccessTokenService(code).retrieve();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomePage(token)));
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('access_token', token);
+    Navigator.pop(context);
   }
 
   Future<void> _launchAuthUrl() async {

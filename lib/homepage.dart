@@ -2,24 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:reddit_app/apiservice.dart';
+import 'package:reddit_app/login/loginpage.dart';
 import 'package:reddit_app/user/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
-  final String _code;
-
-  HomePage(this._code);
+  HomePage();
 
   @override
   _HomePageState createState() {
-    return _HomePageState(ApiService(_code));
+    return _HomePageState();
   }
 }
 
 class _HomePageState extends State<HomePage> {
-  final ApiService _apiService;
+  ApiService _apiService;
   User _user;
-
-  _HomePageState(this._apiService);
+  _HomePageState();
 
   @override
   void initState() {
@@ -61,11 +60,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _getUserInfo() async {
-    final user = await _apiService.me();
-    setState(() {
-      if (user != null) {
-        _user = user;
-      }
-    });
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      _apiService = ApiService(prefs.getString('access_token'));
+      final user = await _apiService.me();
+      setState(() {
+        if (user != null) {
+          _user = user;
+        }
+      });
+    } catch (AuthorizationException) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()))
+          .then((_) => _getUserInfo());
+    }
   }
 }
