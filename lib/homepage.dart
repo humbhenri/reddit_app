@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:reddit_app/apiconfig.dart';
 import 'package:reddit_app/apiservice.dart';
 import 'package:reddit_app/listings/listing.dart';
 import 'package:reddit_app/listings/postlisting.dart';
@@ -21,6 +22,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   ApiService _apiService;
   User _user;
+  Posts _posts;
+  String _token;
+
   _HomePageState();
 
   @override
@@ -54,7 +58,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    if (_user == null) {
+    if (_user == null || _posts == null) {
       return Center(
         child: Container(
           height: 180.0,
@@ -64,25 +68,35 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       );
     }
     return Scaffold(
-      appBar: AppBar(
-        title: Text('App for Reddit'),
-        actions: <Widget>[
-          IconButton(
-            icon: Image.network(_user.iconImg),
-            onPressed: () => {},
-          )
-        ],
-      ),
-      body: Center(
-        child: Text(_user.name),
-      ),
-    );
+        appBar: AppBar(
+          title: Text('App for Reddit'),
+          actions: <Widget>[
+            IconButton(
+              icon: Image.network(_user.iconImg),
+              onPressed: () => {},
+            )
+          ],
+        ),
+        body: ListView.builder(
+          itemCount: _posts.posts.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(_posts.posts[index].title),
+              leading: _posts.posts[index].thumbnail == null
+                  ? null
+                  : Image.network(
+                      _posts.posts[index].thumbnail,
+                    ),
+            );
+          },
+        ));
   }
 
   Future<void> _getUserInfo() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      _apiService = ApiService(prefs.getString('access_token'));
+      _token = prefs.getString('access_token');
+      _apiService = ApiService(_token);
       final user = await _apiService.me();
       setState(() {
         if (user != null) {
@@ -98,7 +112,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Future<void> _getPosts() async {
     final data = await _apiService.mockedBest();
-    final posts = Posts.fromJson(data);
-    print(posts);
+    setState(() {
+      _posts = Posts.fromJson(data);
+    });
   }
 }

@@ -5,5 +5,8 @@ class Posts {
   final List<Post> posts;
 
   Posts.fromJson(Map<String, dynamic> jsonMap)
-      : posts = Listing.fromJson(jsonMap).children.map((data) => Post.fromJson(data['data'])).toList();
+      : posts = Listing.fromJson(jsonMap)
+            .children
+            .map((data) => Post.fromJson(data['data']))
+            .toList();
 }
