@@ -5,7 +5,7 @@ import 'package:reddit_app/apiconfig.dart';
 import 'package:reddit_app/exceptions.dart';
 import 'package:reddit_app/user/user.dart';
 import 'package:reddit_app/useragentclient.dart';
-
+import 'package:flutter/services.dart' show rootBundle;
 class _AuthUserAgentClient extends http.BaseClient {
   final String _token;
   final http.Client _inner;
@@ -38,11 +38,29 @@ class ApiService {
     final response = await _client.get(
       ApiConfig.ROOT_URI + '/api/v1/me',
     );
-    switch (response.statusCode) {
+    final data = _handleResponse(response);
+    if (data != null) {
+      return User.fromJson(data);
+    }
+    return null;
+  }
+
+  Future<dynamic> best() async => _get('/best');
+
+  Future<dynamic> mockedBest() async {
+    final String best = await rootBundle.loadString('assets/best.json');
+    return json.decode(best);
+  }
+
+  Future<dynamic> _get(String path) async {
+    final response = await _client.get(ApiConfig.ROOT_URI + path);
+    return _handleResponse(response);
+  }
+
+  dynamic _handleResponse(http.Response res) {
+    switch (res.statusCode) {
       case 200:
-        final user = User.fromJson(json.decode(response.body));
-        print('User = $user');
-        return user;
+        return json.decode(res.body);
         break;
       case 401:
         throw AuthorizationException();
@@ -50,5 +68,6 @@ class ApiService {
       default:
         return null;
     }
+
   }
 }
