@@ -7,15 +7,6 @@ class Listing {
   final int dist;
   final List<dynamic> children;
 
-  Listing(
-      {this.children,
-      this.dist,
-      this.after,
-      this.before,
-      this.limit,
-      this.count,
-      this.show});
-
   Listing.fromJson(Map<String, dynamic> jsonMap)
       : after = jsonMap['data']['after'],
         before = jsonMap['data']['before'],

@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:reddit_app/apiconfig.dart';
 import 'package:reddit_app/apiservice.dart';
-import 'package:reddit_app/listings/listing.dart';
 import 'package:reddit_app/listings/postlisting.dart';
+import 'package:reddit_app/listings/postwidget.dart';
 import 'package:reddit_app/login/loginpage.dart';
 import 'package:reddit_app/user/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,19 +75,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             )
           ],
         ),
-        body: ListView.builder(
-          itemCount: _posts.posts.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(_posts.posts[index].title),
-              leading: _posts.posts[index].thumbnail == null
-                  ? null
-                  : Image.network(
-                      _posts.posts[index].thumbnail,
-                    ),
-            );
-          },
-        ));
+        body: PostListingWidget(posts: _posts));
   }
 
   Future<void> _getUserInfo() async {
@@ -111,7 +97,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Future<void> _getPosts() async {
-    final data = await _apiService.mockedBest();
+    final data = await _apiService.best();
     setState(() {
       _posts = Posts.fromJson(data);
     });

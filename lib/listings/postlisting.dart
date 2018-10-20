@@ -1,12 +1,13 @@
 import 'package:reddit_app/listings/listing.dart';
 import 'package:reddit_app/listings/post.dart';
 
-class Posts {
-  final List<Post> posts;
+class Posts extends Listing {
+  List<Post> _posts;
 
-  Posts.fromJson(Map<String, dynamic> jsonMap)
-      : posts = Listing.fromJson(jsonMap)
-            .children
-            .map((data) => Post.fromJson(data['data']))
-            .toList();
+  Posts.fromJson(Map<String, dynamic> jsonMap) : super.fromJson(jsonMap) {
+    _posts = children.map((child) => Post.fromJson(child['data'])).toList();
+  }
+
+  List<Post> get posts => _posts;
+
 }

@@ -9,6 +9,8 @@ class Post {
   final int score;
   final List<Image> preview;
   final String _thumbnail;
+  final int numComments;
+  final double created;
 
   Post.fromJson(Map<String, dynamic> jsonMap)
       : id = jsonMap['id'],
@@ -22,7 +24,9 @@ class Post {
                 .map<Image>((image) => Image.fromJson(image))
                 .toList()
             : [],
-        _thumbnail = jsonMap['thumbnail'];
+        _thumbnail = jsonMap['thumbnail'],
+        numComments = jsonMap['num_comments'],
+        created = jsonMap['created'];
 
   String get thumbnail {
     return !_thumbnail.startsWith('http') ? null : _thumbnail;

@@ -1,0 +1,86 @@
+Flutter crash report; please file at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run
+
+## exception
+
+String: Exit code 1 from: C:\Users\Humberto\AppData\Local\Android\sdk\build-tools\28.0.3\aapt dump xmltree C:\Users\Humberto\Documents\reddit_app\build\app\outputs\apk\app.apk AndroidManifest.xml
+
+```
+#0      _runWithLoggingSync (package:flutter_tools/src/base/process.dart:351:7)
+#1      runCheckedSync (package:flutter_tools/src/base/process.dart:282:10)
+#2      new AndroidApk.fromApk (package:flutter_tools/src/application_package.dart:72:27)
+#3      AndroidApk.fromAndroidProject (package:flutter_tools/src/application_package.dart:100:27)
+<asynchronous suspension>
+#4      getApplicationPackageForPlatform (package:flutter_tools/src/application_package.dart:283:30)
+<asynchronous suspension>
+#5      FlutterDevice.runHot (package:flutter_tools/src/resident_runner.dart:267:21)
+<asynchronous suspension>
+#6      HotRunner.run (package:flutter_tools/src/run_hot.dart:262:39)
+<asynchronous suspension>
+#7      RunCommand.runCommand (package:flutter_tools/src/commands/run.dart:391:37)
+<asynchronous suspension>
+#8      FlutterCommand.verifyThenRunCommand (package:flutter_tools/src/runner/flutter_command.dart:372:18)
+#9      _asyncThenWrapperHelper.<anonymous closure> (dart:async/runtime/libasync_patch.dart:77:64)
+#10     _rootRunUnary (dart:async/zone.dart:1132:38)
+#11     _CustomZone.runUnary (dart:async/zone.dart:1029:19)
+#12     _FutureListener.handleValue (dart:async/future_impl.dart:129:18)
+#13     Future._propagateToListeners.handleValueCallback (dart:async/future_impl.dart:642:45)
+#14     Future._propagateToListeners (dart:async/future_impl.dart:671:32)
+#15     Future._complete (dart:async/future_impl.dart:476:7)
+#16     _SyncCompleter.complete (dart:async/future_impl.dart:51:12)
+#17     _AsyncAwaitCompleter.complete (dart:async/runtime/libasync_patch.dart:28:18)
+#18     _completeOnAsyncReturn (dart:async/runtime/libasync_patch.dart:295:13)
+#19     RunCommand.usageValues (package:flutter_tools/src/commands/run.dart)
+#20     _asyncThenWrapperHelper.<anonymous closure> (dart:async/runtime/libasync_patch.dart:77:64)
+#21     _rootRunUnary (dart:async/zone.dart:1132:38)
+#22     _CustomZone.runUnary (dart:async/zone.dart:1029:19)
+#23     _FutureListener.handleValue (dart:async/future_impl.dart:129:18)
+#24     Future._propagateToListeners.handleValueCallback (dart:async/future_impl.dart:642:45)
+#25     Future._propagateToListeners (dart:async/future_impl.dart:671:32)
+#26     Future._complete (dart:async/future_impl.dart:476:7)
+#27     _SyncCompleter.complete (dart:async/future_impl.dart:51:12)
+#28     _AsyncAwaitCompleter.complete.<anonymous closure> (dart:async/runtime/libasync_patch.dart:33:20)
+#29     _rootRun (dart:async/zone.dart:1124:13)
+#30     _CustomZone.run (dart:async/zone.dart:1021:19)
+#31     _CustomZone.bindCallback.<anonymous closure> (dart:async/zone.dart:947:23)
+#32     _microtaskLoop (dart:async/schedule_microtask.dart:41:21)
+#33     _startMicrotaskLoop (dart:async/schedule_microtask.dart:50:5)
+#34     _runPendingImmediateCallback (dart:isolate/runtime/libisolate_patch.dart:115:13)
+#35     _RawReceivePortImpl._handleMessage (dart:isolate/runtime/libisolate_patch.dart:172:5)
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel beta, v0.9.4, on Microsoft Windows [versÃ£o 10.0.17134.345], locale pt-BR)
+    • Flutter version 0.9.4 at C:\flutter
+    • Framework revision f37c235c32 (3 weeks ago), 2018-09-25 17:45:40 -0400
+    • Engine revision 74625aed32
+    • Dart version 2.1.0-dev.5.0.flutter-a2eb050044
+
+[!] Android toolchain - develop for Android devices (Android SDK 28.0.3)
+    • Android SDK at C:\Users\Humberto\AppData\Local\Android\sdk
+    • Android NDK location not configured (optional; useful for native profiling support)
+    • Platform android-28, build-tools 28.0.3
+    • Java binary at: C:\Users\Humberto\Documents\android-studio\jre\bin\java
+    • Java version OpenJDK Runtime Environment (build 1.8.0_152-release-1136-b06)
+    ✗ Android license status unknown.
+
+[✓] Android Studio (version 3.2)
+    • Android Studio at C:\Users\Humberto\Documents\android-studio
+    ✗ Flutter plugin not installed; this adds Flutter specific functionality.
+    ✗ Dart plugin not installed; this adds Dart specific functionality.
+    • Java version OpenJDK Runtime Environment (build 1.8.0_152-release-1136-b06)
+
+[✓] VS Code, 64-bit edition (version 1.28.1)
+    • VS Code at C:\Program Files\Microsoft VS Code
+    • Flutter extension version 2.19.0
+
+[✓] Connected devices (1 available)
+    • Android SDK built for x86 • emulator-5554 • android-x86 • Android 9 (API 28) (emulator)
+
+! Doctor found issues in 1 category.
+```

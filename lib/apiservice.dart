@@ -52,6 +52,8 @@ class ApiService {
     return json.decode(best);
   }
 
+  Future<dynamic> comments(String id) => _get('/comments/$id');
+
   Future<dynamic> _get(String path) async {
     final response = await _client.get(ApiConfig.ROOT_URI + path);
     return _handleResponse(response);
