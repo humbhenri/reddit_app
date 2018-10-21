@@ -6,6 +6,7 @@ import 'package:reddit_app/exceptions.dart';
 import 'package:reddit_app/user/user.dart';
 import 'package:reddit_app/useragentclient.dart';
 import 'package:flutter/services.dart' show rootBundle;
+
 class _AuthUserAgentClient extends http.BaseClient {
   final String _token;
   final http.Client _inner;
@@ -70,6 +71,7 @@ class ApiService {
       default:
         return null;
     }
-
   }
+
+  Map<String, String> requestHeaders() => {'Authorization': 'bearer $_token'};
 }

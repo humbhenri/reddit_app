@@ -39,21 +39,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //   switch (state) {
-  //     case AppLifecycleState.paused:
-  //       _stopCountTime();
-  //       break;
-  //     case AppLifecycleState.resumed:
-  //       _beginCountTime();
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  //   super.didChangeAppLifecycleState(state);
-  // }
-
   @override
   Widget build(BuildContext context) {
     if (_user == null || _posts == null) {
@@ -97,9 +82,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Future<void> _getPosts() async {
-    final data = await _apiService.best();
-    setState(() {
-      _posts = Posts.fromJson(data);
-    });
+    try {
+      final data = await _apiService.best();
+      setState(() {
+        _posts = Posts.fromJson(data);
+      });
+    } catch (AuthorizationException) {
+      await Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
+      _getPosts();
+    }
   }
 }

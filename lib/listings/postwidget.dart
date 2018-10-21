@@ -25,17 +25,27 @@ class PostWidget extends StatelessWidget {
         ),
         leading: post.thumbnail == null
             ? null
-            : Image.network(
-                post.thumbnail,
-                width: 100.0,
-                height: 50.0,
+            : Container(
+              decoration: BoxDecoration(
+                border: Border.all(width: 2.0, color: Colors.orange),
+                borderRadius: BorderRadius.all(Radius.circular(8.0))
               ),
+              margin: EdgeInsets.all(4.0),
+              child: Image.network(
+                  post.thumbnail,
+                  width: 120.0,
+                  height: 70.0,
+                  alignment: Alignment(-1.0, -1.0),
+                  fit: BoxFit.cover,
+                ),
+            ),
         onTap: () => showPostDetail(context));
   }
 
   showPostDetail(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('access_token');
+    final apiService = ApiService(token);
     final data = await ApiService(token).comments(post.id);
     final submission = Submission.fromJson(data);
     print(data);
@@ -44,6 +54,7 @@ class PostWidget extends StatelessWidget {
         MaterialPageRoute(
             builder: (context) => PostDetailPage(
                   submission: submission,
+                  apiService: apiService,
                 )));
   }
 }

@@ -26,8 +26,8 @@ class Post {
             : [],
         _thumbnail = jsonMap['thumbnail'],
         numComments = jsonMap['num_comments'],
-        created = jsonMap['created'];
-
+        created = jsonMap['created']
+        ;
   String get thumbnail {
     return !_thumbnail.startsWith('http') ? null : _thumbnail;
   }
