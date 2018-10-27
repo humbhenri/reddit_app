@@ -16,6 +16,7 @@ class LinkPage extends StatefulWidget {
 
 class LinkPageState extends State<LinkPage> {
   final _flutterWebviewPlugin = new FlutterWebviewPlugin();
+  bool _commentsAreaExpanded = false;
 
   @override
   void dispose() {
@@ -27,20 +28,33 @@ class LinkPageState extends State<LinkPage> {
     _flutterWebviewPlugin.launch(widget.link.url);
   }
 
+  _expandCommentsArea() {
+    print('blah');
+    setState(() {
+      _commentsAreaExpanded = true;
+    });
+  }
+
+  _expandSummaryArea() {
+    setState(() {
+      _commentsAreaExpanded = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final postImage = Container(
         decoration: BoxDecoration(
           border: Border.all(width: 1.0, color: Colors.orange),
         ),
-        child: widget.link.thumbnail == null
-            ? Icon(Icons.comment)
+        child: (widget.link.thumbnail == null || _commentsAreaExpanded)
+            ? Container()
             : Image.network(
                 widget.link.thumbnail,
                 fit: BoxFit.cover,
               ));
 
-    final summary = Row(
+    final urlRow = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Expanded(
@@ -66,6 +80,27 @@ class LinkPageState extends State<LinkPage> {
       ],
     );
 
+    final comments = Expanded(
+      child: GestureDetector(
+        onTap: _expandCommentsArea,
+        child: ListView.builder(
+          itemCount: widget.link.comments.length,
+          itemBuilder: (context, index) {
+            return Column(
+              children: <Widget>[
+                Divider(
+                  height: 5.0,
+                ),
+                ListTile(
+                  title: Text(widget.link.comments[index].body),
+                )
+              ],
+            );
+          },
+        ),
+      ),
+    );
+
     final body = Container(
       child: Text(widget.link.selftext),
     );
@@ -78,12 +113,20 @@ class LinkPageState extends State<LinkPage> {
           overflow: TextOverflow.fade,
         ),
       ),
-      body: Card(
-        elevation: 4.0,
-        child: ListView(
-          shrinkWrap: true,
-          children: <Widget>[postImage, summary, body],
-        ),
+      body: Column(
+        children: <Widget>[
+          Card(
+            elevation: 4.0,
+            child: GestureDetector(
+              onTap: _expandSummaryArea,
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[postImage, urlRow, body],
+              ),
+            ),
+          ),
+          comments
+        ],
       ),
     );
   }
