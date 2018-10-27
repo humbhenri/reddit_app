@@ -1,11 +1,11 @@
 import 'package:reddit_app/listings/comments.dart';
 import 'package:reddit_app/listings/post.dart';
 
-class Submission extends Post {
+class Link extends Post {
   final List<Comment> comments;
   final String selftext;
 
-  Submission.fromJson(List<dynamic> jsonMap)
+  Link.fromJson(List<dynamic> jsonMap)
       : comments = jsonMap[1]['data']['children']
             .map<Comment>((child) => Comment.fromJson(child['data']))
             .toList(),

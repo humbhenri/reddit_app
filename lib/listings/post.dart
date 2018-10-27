@@ -11,6 +11,7 @@ class Post {
   final String _thumbnail;
   final int numComments;
   final double created;
+  final String url;
 
   Post.fromJson(Map<String, dynamic> jsonMap)
       : id = jsonMap['id'],
@@ -26,7 +27,8 @@ class Post {
             : [],
         _thumbnail = jsonMap['thumbnail'],
         numComments = jsonMap['num_comments'],
-        created = jsonMap['created']
+        created = jsonMap['created'],
+        url = jsonMap['url']
         ;
   String get thumbnail {
     return !_thumbnail.startsWith('http') ? null : _thumbnail;
