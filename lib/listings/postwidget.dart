@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:reddit_app/apiservice.dart';
 import 'package:reddit_app/listings/post.dart';
-import 'package:reddit_app/listings/linkpage.dart';
+import 'package:reddit_app/link/linkpage.dart';
 import 'package:reddit_app/listings/postlisting.dart';
-import 'package:reddit_app/listings/link.dart';
+import 'package:reddit_app/link/link.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -48,7 +48,6 @@ class PostWidget extends StatelessWidget {
     final apiService = ApiService(token);
     final data = await ApiService(token).comments(post.id);
     final link = Link.fromJson(data);
-    print(data);
     Navigator.push(
         context,
         MaterialPageRoute(
